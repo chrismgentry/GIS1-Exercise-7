@@ -1,0 +1,307 @@
+---
+title: "Exercise 7: Creating Lines and Polygons <br><small>Geographic Information Systems 1 Lab</small></br>"
+author: "GEOG 3150"
+output:
+  html_notebook:
+    df_print: paged
+    rows.print: 10
+    theme: cosmo
+    highlight: breezedark
+    number_sections: yes
+    toc: yes
+    toc_float:
+      collapsed: no
+      smooth_scroll: yes
+  pdf_document: default
+  html_document:
+    toc: yes
+    df_print: paged
+editor_options:
+  chunk_output_type: inline
+  mode: gfm
+---
+
+```{=html}
+<style type="text/css">
+
+h1.title {
+  font-size: 40px;
+  font-family: "Times New Roman", Times, serif;
+  color: DarkBlue;
+  text-align: center;
+}
+
+h4.author { /* Header 4 - and the author and data headers use this too  */
+  font-size: 20px;
+  font-family: "Times New Roman", Times, serif;
+  color: DarkBlue;
+  text-align: center;
+}
+
+body {
+  font-family: Helvetica;
+  font-size: 12pt;
+}
+
+.zoom {
+  transform-origin: 40% 50% 0;
+  transition: transform .2s;
+  margin: 0 auto;
+}
+.zoom img{
+	width:auto;
+	height:auto;	
+}
+.zoom:hover {
+  transform: scale(2);
+}
+
+th, td {padding: 5px;}
+
+</style>
+```
+<hr></hr>
+
+The purpose of this exercise is to teach methods of creating polygon and polyline data for display in various programs. These skills will help you understand the foundation of vector data, creation of new polygon and polyline datasets, and editing attribute tables.
+
+# The Introduction
+
+The [Austin Peay State University - College of Science, Technology, Engineering, and Mathematics](https://www.apsu.edu/costem/) will be hosting the upcoming [Middle Tennessee Science and Engineering Fair](https://www.mtsef.org/about) in the Spring semester. In preparation for this large event, the [Dean of CoSTEM](https://www.apsu.edu/costem/dean-welcome.php) has asked you to develop a custom map of campus that not only shows the specific venues but also helps to highlight the college. This is a major recruiting event for high school students so the dean wants to make sure participants are able to visit campus buildings that house STEM departments and other facilities that support research or student interests. The map should also highlight the various venues being used for the event and accessible parking locations for each building.
+
+The following locations need to be included on the map and highlighted via text or legend on the map:
+
+- Preliminary Round Venues: the **Dunn Center** and **Foy Center** for high school participants, and the **Sundquist Science Center** - Atrium for middle school participants
+  - Preliminary rounds will be held from 8am to 10am
+    - _Dunn Center_ parking lots include: 2, 3, 6, 50, 51
+    - _Foy Center_ parking lots include: 6, 83 
+- Plenary Speaker Venues: **Clement Auditorium** in the Clement Building for the middle school participants and the **Mabry Concert Hall** in the Music/Mass Communication Building for the high school participants
+  - These presentations will occur from 10:30 am to 12pm.
+    - _Clement_ parking lots include: 10, 11, 40, 43
+    - _MMC_ parking lots include: 7, 8, 43, 45
+- Vendor and Informational Locations: **Morgan University Center**, Second Floor, Main Lobby (remember the 2^nd^ floor is where most students enter the MUC)
+  - Vendor booths will be available from 12pm to 2pm
+- Final Round and Awards for all age groups: **Morgan University Center Ballroom** (3rd Floor)
+  - The final round will be held from 2:30pm to 4pm with awards immediately following
+    - _MUC_ parking lots include: 40, 43, 45, 82, 83
+
+Refer to the information on the [Campus Maps](https://www.apsu.edu/map/index.php) page of the APSU website for more information about the building names and parking lot numbers.
+
+Additionally, the dean would like you to include the following STEM buildings and what departments can be found in each (when applicable):
+
+- **Maynard Building**
+  - _Departments include:_ Mathematics, Computer Science and Information Technology
+- **McCord Building**
+  - _Departments include:_ Geosciences
+- **Sundquist Science Complex**
+  - _Departments include:_ Agriculture, Allied Health Sciences, Biology, Chemistry, Physics, Engineering and Astronomy
+- **Technology Building**
+  - _Departments include:_  Engineering Technology, Dean's Office
+- **Woodward Library**
+
+Remember that it is also important to have the main campus roads or sidewalks from one venue to another digitized so visitors can determine how to move around campus.
+
+In this exercise you will:
+
+-   Learn to create polygon and polyline data
+-   Work with additional open-source software to create data (R directions only)
+-   Connect to previously developed datasets
+-   Edit and add information to the attribute table
+-   Develop complex, multi-part symbology
+-   Add informative text to enhance the usability 
+
+Software specific directions can be found for each step below. Please submit the answer to the questions and your final map by the due date.
+
+## Step One: The Data
+
+You will need to use aerial imagery for this exercise in order to identify the various buildings and parking locations on campus. The information contained in the link in the introduction should provide you all of the basic information. Adding Montgomery County or the county/state datasets for Tennessee from previous exercises might help to provide location information but is not necessarily required.
+
+<details>
+<summary><big>View Directions in <b> [ArcGIS Pro]{style="color:#ff4500"} </b></big></summary>
+
+After setting up your project folder for this exercise, use the steps from [Exercise 6, Step 1](https://chrismgentry.github.io/GIS1-Exercise-6/#11_Step_One:_The_Data) or previous exercises to change the basemap to _Imagery_ or another useful basemap from the available options. With this new basemap set, follow the same directions for [Creating Point Data](https://chrismgentry.github.io/GIS1-Exercise-6/#1_The_Introduction) found in [Exercise 6](https://chrismgentry.github.io/GIS1-Exercise-6) to open the _Catalog Pane_, navigate to your project folder, and _Create a New Shapefile_. While the steps will be identical, in the **Create Feature Class** pane one option will be different. After selecting a _feature class location_ and _feature class name_, be sure to choose **polygon** as the _geometry type_. Because you are digitizing buildings in this exercise you need to select polygon as the appropriate geometry. In a later step you will follow these same directions to create **polyline** (line) data.
+
+<p align="center"><div class="zoom"><img src= "Images/arcgis-create-new-polygon.png" alt="Create New Polygon Shapefile" style="width:100%"></div></p>
+
+After clicking _Run_ the new shapefile should have been added to the table of contents. If not add it now and zoom in on the imagery basemap to campus. Remember, if you are unable to find campus you can use the **Go To XY** button on the _Map Tab_ and type in the following coordinates: `-87.35, 36.53` and use _Flash Location_ to find Clarksville, TN.
+
+Now that you have zoomed to campus you can begin to develop the polygons. When creating polygons I find that changing the polygon fill to **no color** and using a bright outline helps to better visualize the information being created. Next, navigate to the _Edit Tab_ and click on the drop-down beneath **Snapping** and select _Snapping Settings..._. Snapping tolerance sets the distance at which two points will be snapped together. This is really important when trying to close or avoid closing a polygon. In the _Snapping Settings_ window, change the XY tolerance to 1 map units and click OK. Next, click on the **Create** button on the _Edit Tab_. In the _Create Features_ pane that opens on the right of the screen click on the "Create a polygon feature" button <img src= "Images/arcgis-create-polygon-feature-button.jpg" alt="Create new polygon feature" width="20" height="20"> and notice that your cursor now become a cross hairs. Place the target over one corner of the Dunn Center and click. This will create the first **vertex** for the polygon. Move to the next inside or outside corner and click again. Continue this process until you have created the outline of the building. Your final polygon for the Dunn Center should have 12 vertices (plural of vertex). Double-click or click F2 on the keyboard to finish digitizing the polygon. With the Dunn Center completed, move on to one of the other venues. 
+
+<p align="center"><div class="zoom"><img src= "Images/arcgis-sketch-polygon.png" alt="Sketch Polygon Shapefile" style="width:100%"></div></p>
+
+The most common mistake to make when digitizing is to accidentally place a vertex. If this occurs you can simply right-click on the vertex while digitizing and click **delete vertex**. Alternatively you can click the ESC button on your keyboard to start over completely. However, once you get accustom to digitizing or if you have finished a sketch and realize you need to make edits this can be done by clicking the **Modify** button <img src= "Images/arcgis-modify-feature-button.jpg" alt="Modify feature" width="20" height="20"> on the _Edit Tab_. This will provide a number of editing features. The most frequently used option is the **Edit Vertices** button <img src= "Images/arcgis-edit-vertices-button.jpg" alt="Edit Vertices" width="20" height="20">. After clicking, the menu at the bottom of the image will change and allow you to **add vertices** <img src= "Images/arcgis-add-vertex-button.jpg" alt="Add Vertices" width="20" height="20"> or **delete vertices** <img src= "Images/arcgis-delete-vertex-button.jpg" alt="Delete Vertices" width="20" height="20">. After adding a vertex you can mouse over the new point and see your cursor change to a directional symbol (four opposite facing triangles). Click, drag, and move the new/previously created vertex to a new location and click the **finish sketch** button <img src= "Images/arcgis-finish-sketch-button.jpg" alt="Finish Sketch" width="20" height="20"> when you are finished editing.
+
+<p align="center"><div class="zoom"><img src= "Images/arcgis-edit-polygon-sketch.png" alt="Edit Polygon Shapefile" style="width:100%"></div></p>
+
+Remember it is important to save often! Us the **Save Edits** button <img src= "Images/arcgis-edits-save-button.jpg" alt="Finish Sketch" width="20" height="20"> on the _Edit Tab_ to make sure your data is saved. Continue to create all of the remaining venues. Afterwards you should create a new polygon dataset for CoSTEM Buildings and another for parking lots. Because the Sundquist Science Complex was created as part of the venues you have a several future options for the future display: 
+1.    You can select only the SSC from your venues, create a new shapefile, and merge it to the CoSTEM Buildings dataset,
+2.    Use text when necessary to indicate which category that building is applied to, or 
+3.    Create a new shapefile from the SSC Building and give it multi-part symbology to indicate its relationship to multiple categories when appropriate.
+
+<big><b>Question No. 1</b></big>
+<blockquote>
+_How many vertices were used to create the **Foy Center**?_
+</blockquote>
+
+</details>
+<hr></hr>
+
+<details>
+<summary><big>View directions in <b> [QGIS]{style="color: #006400"} </b></big></summary>
+
+Blah...blah...blah...
+
+<big><b>Question No. 1</b></big>
+<blockquote>
+_Insert Text Here_
+</blockquote>
+
+</details>
+<hr></hr>
+
+<details><summary><big>View directions in <b> [R]{style="color: #6495ED"} </b></span></big></summary>
+Before you begin, you will need to open the [Ex2 Colab Notebook](https://github.com/chrismgentry/GIS1-Exercise-7/blob/main/GIS1_EX7.ipynb) and insert **tocolab** after _github_ in the URL to open in the _Colab Environment_. As you have seen before, R requires various packages to complete certain analyses. In this exercise you will be using **tidyverse, OpenStreetMaps, ggfortify, maptools, and rgeos**. To install and load the packages we will use the following script:
+
+Blah...blah...blah...
+
+<big><b>Question No. 1</b></big>
+<blockquote>
+_Insert Text Here_
+</blockquote>
+
+</details>
+
+## Step Two: The Analyses
+
+With datasets for the venues, CoSTEM buildings, and parking lots created, in this step you will develop a "transportation" layer and edit the attribute tables to provide options for categorizations when making the final map. For simplicity you can assume that all participants who do not make the final round will not remain on campus for the final judging and awards. However, all participants will attend the plenary speaker presentations and visit the vendor booths.
+
+<details>
+<summary><big>View Directions in <b> [ArcGIS Pro]{style="color:#ff4500"} </b></big></summary>
+
+With the different buildings and parking lots digitized you need to help visitors determine how to get to and from each venue as well as the best location to park for each activity. So while the steps will essentially be the same as in [Step 1](https://chrismgentry.github.io/GIS1-Exercise-7/#11_Step_One:_The_Data) of this exercise, except using a polyline, you need to take time to think about what lines will be required for your visualization. During the event you have two groups of participants, moving to similar and dissimilar locations, and various options for parking that are more applicable to some participants than others. You should think about some individual scenarios, for example: "I'm a middle school student family, presenting in the SSC, who will need to attend a plenary presentation, and visit the MUC" or "I'm a high school student family, presenting in the Dunn Center, who will attend the plenary session, and visit the MUC" because each of these scenarios requires a different transportation plan. So think about all of the possible scenarios before digitizing the data so you can make only the most necessary polylines for the map.
+
+<p align="center"><div class="zoom"><img src= "Images/arcgis-sketch-polyline.png" alt="Create Polyline Shapefile" style="width:100%"></div></p>
+
+Next, with each of the datasets you have created, follow the steps at the end of [Exercise 6, Step 2](https://chrismgentry.github.io/GIS1-Exercise-6/#12_Step_Two:_The_Analyses) to edit the attribute tables. Think about some of the important attributes each dataset should contain. For example, buildings should have a field for names and maybe the round they will be used, while your polylines might need a field for the type of participant that it is meant for. Be sure when you add each field you think about the _data type_ (numeric value, date, text) that would be most appropriate. 
+
+<big><b>Question No. 2</b></big>
+<blockquote>
+_What is the minimum number of polylines necessary to create a "transportation" plan for each type of participant scenario_
+</blockquote>
+
+</details>
+<hr></hr>
+
+<details>
+<summary><big>View Directions in <b> [QGIS]{style="color:#006400"} </b></big></summary>
+
+Blah...blah...blah...
+
+<big><b>Question No. 2</b></big>
+<blockquote>
+_Insert Text Here_
+</blockquote>
+
+</details>
+<hr></hr>
+
+<details>
+<summary><big>View Directions in <b> [R]{style="color:#6495ED"} </b></big></summary>
+
+Blah...blah...blah...
+
+<big><b>Question No. 2</b></big>
+<blockquote>
+_Insert Text Here_
+</blockquote>
+
+</details>
+
+## Step Three: The Visualization
+
+In this step you will use previous examples and your own design concepts to create a visualization that can be distributed to all Middle Tennessee Science and Engineering Fair participants as part of their “Before Arriving at the MTSEF...” packet they receive after placing in their regional events. You may need to use various inset maps or other methods to ensure all necessary information is available.
+
+<details><summary><big>View directions in <b> [ArcGIS Pro]{style="color:#ff4500"} </b></span></big></summary>
+
+Similar to the [previous exercise](https://chrismgentry.github.io/GIS1-Exercise-6/#13_Step_Three:_The_Visualization) there will not be an example provided for how this map could be designed. Because there are various ways to organize and present the data you will need to consider the best way to present this information for the MTSEF participants. However, this map will likely include the most text and labeling of all previous exercises so far. As mentioned before, because of the difficulties with label organization on various maps, some cartographers prefer to manually label items so their precise positioning can be controlled better than if placed by the software. Remember that you can alter transparency levels on any dataset, change basemap, etc. to make the necessary customizations to help with legibility and provide the most useful map for the participant families.
+
+<big><b>Question No. 3</b></big>
+<blockquote>
+_Describe some of the difficulties you encountered with creating this map with the various scenarios for different participants_
+</blockquote>
+
+</details>
+<hr></hr>
+
+<details><summary><big>View directions in <b> [QGIS]{style="color:#006400"} </b></span></big></summary>
+
+Blah...blah...blah...
+
+<big><b>Question No. 3</b></big>
+<blockquote>
+_Insert Text Here_
+</blockquote>
+
+</details>
+<hr></hr>
+
+<details><summary><big>View directions in <b> [R]{style="color:#6495ED"} </b></span></big></summary>
+
+Blah...blah...blah...
+
+<big><b>Question No. 3</b></big>
+<blockquote>
+_Insert Text Here_
+</blockquote>
+
+</details>
+
+## Step Four: The Full Experience
+
+After seeing your draft and speaking with the APSU Dining Services Director, the CoSTEM Dean thought that it would be beneficial to also include some on-campus dining locations on the map. The dean and director of dining services made a plan to keep only the locations in the MUC open for the duration of the MTSEF so families would have access to lunch options while on campus. Since you already have this information the dean thought it would be a simple request.
+
+<details><summary><big>View directions in <b> [ArcGIS Pro]{style="color:#ff4500"} </b></span></big></summary>
+
+Following the steps in [Exercise 5, Step 1](https://chrismgentry.github.io/GIS1-Exercise-5/#11_Step_One:_The_Data) to "add a folder connection", connect to your _Exercise 6 project folder_ and add the on-campus dining locations you created. Select only the dining locations inside the MUC and export the subset data to your current project folder. Now you can remove the full on-campus dining dataset. With all of the datasets needed to create the final map, finish the visualization for the dean's final approval.
+
+<big><b>Question No. 4</b></big>
+<blockquote>
+_Insert Text Here_
+</blockquote>
+
+</details>
+<hr></hr>
+
+<details><summary><big>View directions in <b> [QGIS]{style="color:#006400"} </b></span></big></summary>
+
+Blah...blah...blah...
+
+<big><b>Question No. 4</b></big>
+<blockquote>
+_Insert Text Here_
+</blockquote>
+
+</details>
+<hr></hr>
+
+<details><summary><big>View directions in <b> [R]{style="color:#6495ED"} </b></span></big></summary>
+
+Blah...blah...blah...
+
+<big><b>Question No. 4</b></big>
+<blockquote>
+_Insert Text Here_
+</blockquote>
+
+</details>
+
+# The Write-Up
+
+In the presentation of the map you provide to the CoSTEM Dean please provide the following information:
+
+- Describe how the various components of the final map (legend, text, symbols, etc.) are used by the middle school or high school participants at the MTSEF to navigate campus.
+- Propose to the dean the creation of a "similar style" map for incoming CoSTEM freshman that could be provided to them in their STEM-focused APSU 1000 courses.
+  - What datasets would be included?
+  - What information would you need from the dean's office?
+  - How would this be beneficial for incoming students to feel like part of the college or their specific department?
+
+When complete, send a link to your _Colab Notebook_ or word document with answers to Questions 1-4 and your completed map via email.
