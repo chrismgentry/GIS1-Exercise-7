@@ -132,7 +132,7 @@ The most common mistake to make when digitizing is to accidentally place a verte
 
 <p align="center"><div class="zoom"><img src= "Images/arcgis-edit-polygon-sketch.png" alt="Edit Polygon Shapefile" style="width:100%"></div></p>
 
-Remember it is important to save often! Us the **Save Edits** button <img src= "Images/arcgis-edits-save-button.jpg" alt="Finish Sketch" width="20" height="20"> on the _Edit Tab_ to make sure your data is saved. Continue to create all of the remaining venues. Afterwards you should create a new polygon dataset for CoSTEM Buildings and another for parking lots. Because the Sundquist Science Complex was created as part of the venues you have a several future options for the future display: 
+Remember it is important to save often! Us the **Save Edits** button <img src= "Images/arcgis-edits-save-button.jpg" alt="Finish Sketch" width="20" height="20"> on the _Edit Tab_ to make sure your data is saved. Continue to create all of the remaining venues. Afterwards you should create a new polygon dataset for CoSTEM Buildings and another for parking lots. Because the Sundquist Science Complex was created as part of the venues you have a several options for the future display: 
 1.    You can select only the SSC from your venues, create a new shapefile, and merge it to the CoSTEM Buildings dataset,
 2.    Use text when necessary to indicate which category that building is applied to, or 
 3.    Create a new shapefile from the SSC Building and give it multi-part symbology to indicate its relationship to multiple categories when appropriate.
@@ -148,11 +148,37 @@ _How many vertices were used to create the **Foy Center**?_
 <details>
 <summary><big>View directions in <b> [QGIS]{style="color: #006400"} </b></big></summary>
 
-Blah...blah...blah...
+In the [previous exercise](https://chrismgentry.github.io/GIS1-Exercise-6/) you created a number of _XYZ Tile_ connections for various basemaps and created a new point dataset. To begin this exercise, select an appropriate basemap that allows you to view the most updated aerial view of campus and zoom into campus. Once you have selected the imagery you plan to use, follow the steps [Exercise 6, Step 1](https://chrismgentry.github.io/GIS1-Exercise-6/#11_Step_One:_The_Data) by clicking _Layer > Create Layer > New Shapefile Layer_ to create a new shapefile dataset. In the resulting window, click on the browse button to provide a location for your shapefile and a new name and save it in your project folder. For the rest of the options use the following settings:
+
+- File encoding = UTF-8
+- Geometry type = Polygon
+- Additional dimensions = None, EPSG:4326 - WGS 84
+- New Field
+  - Name = Name
+  - Type = TextData
+  - Length = 80
+  
+Because you are digitizing buildings in this exercise you need to select polygon as the appropriate geometry. In a later step you will follow these same directions to create line data.
+
+<p align="center"><div class="zoom"><img src= "Images/qgis-new-polygon.png" alt="Create New Polygon Shapefile" style="width:100%"></div></p>
+
+With your view zoomed into campus you can begin to create the campus polygons. When creating polygons I find that changing the polygon fill to **no color** and using a bright outline helps to better visualize the information being created. Like in the [previous exercise](https://chrismgentry.github.io/GIS1-Exercise-6/#11_Step_One:_The_Data) begin by selecting the new dataset in your layers and either right/CRTL clicking on the layer or clicking the pencil icon <img src= "Images/qgis-toggle-editing-button.jpg" alt="Toggle Editing" width="20" height="20"> to _Toggle Editing_. This will make the new layer editable. Next, click on the **Add Polygon Feature** button <img src= "Images/qgis-add-polygon-feature-button.png" alt="Add Polygon Feature" width="20" height="20"> and notice as your cursor becomes a target. Place the target over one corner of the Dunn Center and click. This will create the first **vertex** for the polygon. Move to the next inside or outside corner and click again. Continue this process until you have created the outline of the building. Your final polygon for the Dunn Center should have 12 vertices (plural of vertex). When you have created the final vertex, right/CRTL-click to finish the polygon and add the name to the attribute. With the Dunn Center completed, move on to one of the other venues.
+
+<p align="center"><div class="zoom"><img src= "Images/qgis-draw-polygon.png" alt="Create New Polygon Shapefile" style="width:100%"></div></p>
+
+The most common mistake to make when digitizing is to accidentally place a vertex. If this occurs you can simply click _delete_ button on the keyboard to remove the previously placed vertex. Alternatively you can click the ESC button on your keyboard to start over completely. However, once you get accustom to digitizing or if you have finished a sketch and realize you need to make edits this can be done by clicking the **Vertex Tool** button <img src= "Images/qgis-vertex-tool.jpg" alt="Vertex Tool" width="20" height="20">. Using this tool you can right/CRTL-click on a polygon to visualize the individual vertices that make up the shape. By hovering over a vertex you will see it change from a single hollow circle to double circle or partial bulls eye appearance. By clicking on the vertex it will become active and you can move the cursor to a new location and click again to move that vertex. You can also press the delete button on the keyboard to remove a selected vertex. To add additional vertices, move your cursor to the center of a line between two vertices and a plus (+) will appear. By clicking on the plus you will create a new vertex and be able to move the cursor to a new location and click to place. With each of these actions pressing ESC on the keyboard will cancel the process. 
+
+<p align="center"><div class="zoom"><img src= "Images/qgis-edit-vertices.png" alt="Edit Vertices" style="width:100%"></div></p>
+
+When you have completed creating new or editing previously created polygons, remember to save your edits by clicking the **Save Layer Edits** button <img src= "Images/qgis-save-layer-edits-button.jpg" alt="Vertex Tool" width="20" height="20">. Continue to create all of the remaining venues before clicking to toggle edits off. Afterwards you should create a new polygon dataset for CoSTEM Buildings and another for parking lots. Because the Sundquist Science Complex was created as part of the venues you have a several options for the future display: 
+
+1. You can select only the SSC from your venues, create a new shapefile, and merge it to the CoSTEM Buildings dataset, 
+2. Use text when necessary to indicate which category that building is applied to, or 
+3. Create a new shapefile from the SSC Building and give it multi-part symbology to indicate its relationship to multiple categories when appropriate.
 
 <big><b>Question No. 1</b></big>
 <blockquote>
-_Insert Text Here_
+_How many vertices were used to create the Foy Center?_
 </blockquote>
 
 </details>
@@ -185,7 +211,7 @@ Next, with each of the datasets you have created, follow the steps at the end of
 
 <big><b>Question No. 2</b></big>
 <blockquote>
-_What is the minimum number of polylines necessary to create a "transportation" plan for each type of participant scenario_
+_What is the minimum number of polylines necessary to create a "transportation" plan for each type of participant scenario?_
 </blockquote>
 
 </details>
@@ -194,11 +220,15 @@ _What is the minimum number of polylines necessary to create a "transportation" 
 <details>
 <summary><big>View Directions in <b> [QGIS]{style="color:#006400"} </b></big></summary>
 
-Blah...blah...blah...
+With the different buildings and parking lots digitized you need to help visitors determine how to get to and from each venue as well as the best location to park for each activity. So while the steps will essentially be the same as in [Step 1](https://chrismgentry.github.io/GIS1-Exercise-7/#11_Step_One:_The_Data) of this exercise, except using a line, you need to take time to think about what routes will be required for your visualization. During the event you have two groups of participants, moving to similar and dissimilar locations, and various options for parking that are more applicable to some participants than others. You should think about some individual scenarios, for example: "I'm a middle school student family, presenting in the SSC, who will need to attend a plenary presentation, and visit the MUC" or "I'm a high school student family, presenting in the Dunn Center, who will attend the plenary session, and visit the MUC" because each of these scenarios requires a different transportation plan. So think about all of the possible scenarios before digitizing the data so you can make only the most necessary lines for the map.
+
+<p align="center"><div class="zoom"><img src= "Images/qgis-sketch-polyline.png" alt="Create Polyline Shapefile" style="width:100%"></div></p>
+
+Next, with each of the datasets you have created, follow the steps at the end of [Exercise 6, Step 2](https://chrismgentry.github.io/GIS1-Exercise-6/#12_Step_Two:_The_Analyses) to edit the attribute tables. Think about some of the important attributes each dataset should contain. For example, buildings should have a field for names and maybe the round they will be used, while your lines might need a field for the type of participant that it is meant for. Be sure when you add each field you think about the _data type_ (numeric value, date, text) that would be most appropriate. 
 
 <big><b>Question No. 2</b></big>
 <blockquote>
-_Insert Text Here_
+_What is the minimum number of lines necessary to create a “transportation” plan for each type of participant scenario?_
 </blockquote>
 
 </details>
@@ -222,11 +252,11 @@ In this step you will use previous examples and your own design concepts to crea
 
 <details><summary><big>View directions in <b> [ArcGIS Pro]{style="color:#ff4500"} </b></span></big></summary>
 
-Similar to the [previous exercise](https://chrismgentry.github.io/GIS1-Exercise-6/#13_Step_Three:_The_Visualization) there will not be an example provided for how this map could be designed. Because there are various ways to organize and present the data you will need to consider the best way to present this information for the MTSEF participants. However, this map will likely include the most text and labeling of all previous exercises so far. As mentioned before, because of the difficulties with label organization on various maps, some cartographers prefer to manually label items so their precise positioning can be controlled better than if placed by the software. Remember that you can alter transparency levels on any dataset, change basemap, etc. to make the necessary customizations to help with legibility and provide the most useful map for the participant families.
+Similar to the [previous exercise](https://chrismgentry.github.io/GIS1-Exercise-6/#13_Step_Three:_The_Visualization) there will not be an example provided for how this map could be designed. Because there are various ways to organize and present the data you will need to consider the best way to present this information for the MTSEF participants. However, this map will likely include the most text and labeling of all previous exercises so far. As mentioned before, because of the difficulties with label organization on various maps, some cartographers prefer to manually label items so their precise positioning can be controlled better than if placed by the software. Remember that you can alter transparency levels on any dataset, change basemap, add insets, etc. to make the necessary customizations to help with legibility and provide the most useful map for the participant families. Be sure to refer back to the [introduction](https://chrismgentry.github.io/GIS1-Exercise-7/#1_The_Introduction) to make sure all of the necessary information is included on your map.
 
 <big><b>Question No. 3</b></big>
 <blockquote>
-_Describe some of the difficulties you encountered with creating this map with the various scenarios for different participants_
+_Describe some of the difficulties you encountered with creating this map for the various scenarios for different participants._
 </blockquote>
 
 </details>
@@ -234,11 +264,11 @@ _Describe some of the difficulties you encountered with creating this map with t
 
 <details><summary><big>View directions in <b> [QGIS]{style="color:#006400"} </b></span></big></summary>
 
-Blah...blah...blah...
+Similar to the [previous exercise](https://chrismgentry.github.io/GIS1-Exercise-6/#13_Step_Three:_The_Visualization) there will not be an example provided for how this map could be designed. Because there are various ways to organize and present the data you will need to consider the best way to present this information for the MTSEF participants. However, this map will likely include the most text and labeling of all previous exercises so far. As mentioned before, because of the difficulties with label organization on various maps, some cartographers prefer to manually label items so their precise positioning can be controlled better than if placed by the software. Remember that you can alter transparency levels on any dataset, change basemap, add insets, etc. to make the necessary customizations to help with legibility and provide the most useful map for the participant families. Be sure to refer back to the [introduction](https://chrismgentry.github.io/GIS1-Exercise-7/#1_The_Introduction) to make sure all of the necessary information is included on your map.
 
 <big><b>Question No. 3</b></big>
 <blockquote>
-_Insert Text Here_
+_Describe some of the difficulties you encountered with creating this map for the various scenarios for different participants._
 </blockquote>
 
 </details>
@@ -265,7 +295,7 @@ Following the steps in [Exercise 5, Step 1](https://chrismgentry.github.io/GIS1-
 
 <big><b>Question No. 4</b></big>
 <blockquote>
-_Insert Text Here_
+_How many dining options were added to the map?_
 </blockquote>
 
 </details>
@@ -273,11 +303,11 @@ _Insert Text Here_
 
 <details><summary><big>View directions in <b> [QGIS]{style="color:#006400"} </b></span></big></summary>
 
-Blah...blah...blah...
+Navigate to your previous exercise folder containing the on-campus dining locations dataset. Select only the dining locations inside the MUC and export the subset data to your current project folder. Now you can remove the full on-campus dining dataset. With all of the datasets needed to create the final map, finish the visualization for the dean's final approval.
 
 <big><b>Question No. 4</b></big>
 <blockquote>
-_Insert Text Here_
+_How many dining options were added to the map?_
 </blockquote>
 
 </details>
